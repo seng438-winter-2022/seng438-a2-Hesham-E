@@ -43,8 +43,8 @@ static double calculateColumnTotal(Values2D data, int column)
       int column:
       Has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
     Strong vs Weak equivalence classes:
-      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there       is no boundary case between the two inputs that only appears when both have a specific value.
-      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5       test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested with the exact same method.
+      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
+      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested with the exact same method.
     Supplementary Notes:
 
 
@@ -64,8 +64,8 @@ static double calculateRowTotal(Values2D data, int row)
       int column:
       Has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
     Strong vs Weak equivalence classes:
-      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there       is no boundary case between the two inputs that only appears when both have a specific value.
-      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5       test cases. This is because, testing (inside data’s indices) and (data with 1-infinity columns) are tested with the exact same method.
+      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
+      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity columns) are tested with the exact same method.
     Supplementary Notes:
 
 
