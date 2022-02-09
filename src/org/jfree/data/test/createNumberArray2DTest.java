@@ -9,12 +9,12 @@ import org.jfree.data.Range; import org.junit.*;
 
 public class createNumberArray2DTest {
     private double [][] a,b = {
-    		{10.0,20.0,30.0,40.0},
+    		        {10.0,20.0,30.0,40.0},
 			{20.0,40.0,60.0,80.0},
 			{30.0,60.0,90.0,120.0}
     		};
     private Number [][] c,d = {
-    		{10.0,20.0,30.0,40.0},
+    		        {10.0,20.0,30.0,40.0},
 			{20.0,40.0,60.0,80.0},
 			{30.0,60.0,90.0,120.0}
 			
@@ -34,7 +34,6 @@ public class createNumberArray2DTest {
 	assertArrayEquals("The number 2D array doesn't have the same values"+ " as the 2D array of doubles", d, c);
 }
 
-}
 
     @After
     public void tearDown() throws Exception {
