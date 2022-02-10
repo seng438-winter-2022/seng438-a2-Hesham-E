@@ -57,9 +57,8 @@ public class DataUtilitiesCreateNumberArrayTest extends DataUtilities {
 	public void testReturnType()
 	{
 		double[] testData = {};
-		Number[] result = DataUtilities.createNumberArray(testData);
 		
-		Assert.assertTrue("Return type should be Number[]", result instanceof Number[]); 
+		Assert.assertTrue("Return type should be Number[]", DataUtilities.createNumberArray(testData) instanceof Number[]); 
 	}
 	
 	
