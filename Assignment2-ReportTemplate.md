@@ -620,7 +620,9 @@ Assembling our work was also an agreed upon ordeal. Since we decided to use equi
 
 # 5 Difficulties encountered, challenges overcome, and lessons learned
 
-Text…
+There quite a few difficulties encountered when setting up the Eclipse environment for this lab. Our group encountered various errors. However, we were able to solve this by helping each other or reaching out to our TAs.
+
+In terms of lessons learned, mocking is not always a best practice. This is because when testing the kinds of exceptions thrown, or boundary values, the tester must introduce the expectations based on the java documentation. This means that the test will almost certainly pass because the setup and end result are set by the tester themselves. Instead, a tester should use the object directly without mocking to observe behavior within the tested method. However, this assumes that the object that is no longer being mocked performs exactly as expected and any errors that arise are from the tested method. 
 
 # 6 Comments/feedback on the lab itself
 
