@@ -47,6 +47,7 @@ static double calculateColumnTotal(Values2D data, int column)
       Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested in the exact same way. Furthermore, there is no boundary value in this case that may cause an aberrant value.
     Test Case #1:
     ```java
+    {
           public void calculateTwoValues() 
 	{
 		mocking.checking(new Expectations()
@@ -65,6 +66,7 @@ static double calculateColumnTotal(Values2D data, int column)
 		
 		assertEquals("The total value of row 0 should be 23.0", 23.0 , result, .000000001d); 
 	}
+    }
     ```java
 
 
