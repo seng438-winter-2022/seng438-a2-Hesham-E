@@ -53,6 +53,15 @@ public class DataUtilitiesCreateNumberArrayTest extends DataUtilities {
 		Assert.assertArrayEquals("The returned array should be {}", expected, result); 
 	}
 	
+	@Test
+	public void testReturnType()
+	{
+		double[] testData = {};
+		Number[] result = DataUtilities.createNumberArray(testData);
+		
+		Assert.assertTrue("Return type should be Number[]", result instanceof Number[]); 
+	}
+	
 	
 	@After 
 	public void tearDown() throws Exception 
