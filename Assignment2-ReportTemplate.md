@@ -464,6 +464,71 @@ public void firstValueShouldBe0_25() {
 * Test Case #4, the test ensures that a negative value inside KeyedValues does not affect the cumulative in a non-proper way.
 
 
+#### double getCentralValue()
+Returns the central value for the range.
+
+* Range of values:
+	* There are no arguments for this method, within Range class there is double Upper and double Lower
+	* Upper: a double value that has to be >=Lower
+	* Lower: a double value that has to be <= Upper
+* Number of equivalence classes:
+	* One equivalent class, since there are no arguments and null is not possible. The tests will be will be used with the Upper and Lower value inside Range.
+* Strong vs Weak equivalence classes:
+	* Since there are very limited inputs, strong equivalence class test can be done without as much work. 
+
+~~~Java
+//Test Case #1
+@Test
+public void valueShouldBe2(){
+	testRange = new Range(1,3);
+	assertEquals("The value between 1 and 3 should be 2", 2, testRange.getCentralValue(), 0);
+	
+}
+~~~
+* Test Case #1, ensuring the method works properly with correct data.
+
+~~~Java
+//Test Case #2
+@Test
+public void lengthBetweenZeroAndZero() {
+	testRange = new Range(0,0);
+	assertEquals("value should be 0", 0, testRange.getLength(),0);
+}
+~~~
+* Test Case #2, checking the central value between the same value, and in this case zeroes are used as well.
+
+
+~~~Java
+@Test
+public void lengthBetweenZeroAndBigNumber() {
+	testRange = new Range(0,300);
+	assertEquals("value should be 300", 300, testRange.getLength(),0);
+}
+~~~
+* Test Case #3, testing by setting the lower bound to zero and an upper bound to a non-zero. Testing proper calculations with zeroes.
+
+
+~~~Java
+@Test
+public void lengthBetweenNonIntegers() {
+	testRange = new Range(-1.9,20.5);
+	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
+}
+~~~
+* Test Case #4, testing calculations between non integer numbers. Ensuring decimals and other non integer numbers are accounted properly.
+
+
+~~~Java
+@Test
+public void lengthBetweenIntegerAndNonInteger() {
+	testRange = new Range(0,69.420);
+	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
+}
+~~~
+* Test Case #5, testing calculations between an integer and a non integer.
+
+
+* Test Case 1, ensures the method works properly with the correct given data.
 # 4 How the team work/effort was divided and managed
 
 To divide the work, the team initally met to discuss if we wanted to work in pairs similar to the previous lab. In the end, we decided against this and went with a individual approach. To be more specific, since there were 10 methods that needed testing, the team decided and assigned a 3/3/2/2 split of methods to test. Furthermore, the people testing three methods were given functions that were thought to be simpler at first glance.
