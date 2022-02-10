@@ -42,7 +42,14 @@ Returns the sum of the values in one column of the supplied data table. With inv
     * Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested in the exact same way. Furthermore, there is no boundary value that may cause an aberrant value that is not already covered by the equivalnce classes.
 ~~~java
 //Test Case #1:
-@Test
+/** 
+ * This test is testing both equivalence classes
+ * Values2D data: (1-infinity) rows
+ * int column: (inside data’s indices)
+ * The reason these are both in the same test
+ * is because they are testing in the exact same manner
+ */
+@Test 
 public void calculateTwoValues() 
 {
 	mocking.checking(new Expectations()
@@ -56,9 +63,9 @@ public void calculateTwoValues()
 			will(returnValue(13));
 		}
 	});
-	
+
 	double result = DataUtilities.calculateColumnTotal(values, 0);
-	
+
 	assertEquals("The total value of column 0 should be 23.0", 23.0 , result, .000000001d); 
 }
 ~~~
@@ -66,7 +73,16 @@ public void calculateTwoValues()
 
 ~~~java
 //Test Case #2:
-@Test
+/** 
+ * This test is testing equivalence class
+ * int column: (outside data’s indices)
+ * 
+ * The test setups up a table of one column
+ * through mocking. getValue(0, 1) will
+ * return throw an exception 
+ * based on the java documentation.
+ */
+@Test(expected = IndexOutOfBoundsException.class)
 public void calculateColumnIndexOutofRange()
 {
 	mocking.checking(new Expectations()
@@ -75,20 +91,26 @@ public void calculateColumnIndexOutofRange()
 			one(values).getRowCount();
 			will(returnValue(1));
 			one(values).getValue(0, 1);
-			will(returnValue(0));
+			will(throwException(new IndexOutOfBoundsException("Index out of range"))); 
 		}
 	});
-	
-	double result = DataUtilities.calculateColumnTotal(values, 1);
-	
-	assertEquals("The total value of column 1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+
+	DataUtilities.calculateColumnTotal(values, 1);
 }
 ~~~
-* Test case #2 accounts for the equivalence class (outside data's indices) from int column. The documentation specifies that when column is out of range that 0 will be returned by calculateColumnTotal(). Thus, a mocking object is set up with a table of 1 row to ensure that 0 is not returned because there is no table to begin with. The use of mocking is not necessary here, however, since these the expectations set up are not used. So a normal Values2D object could have been used with just one column. In the end, this test passes.
+* Test case #2 accounts for the equivalence class (outside data's indices) from int column. The documentation specifies that when column is out of range that an IndexOutofBoundsException will be thrown by getValue(). The use of mocking is disadvantagous here, however, since these the expectations defeat the purpose of testing the repsonse of calculateColumnTotal() because all testing is based on the expectations. In the end, this test passes.
 
 ~~~java
 //Test Case #3:
-@Test
+/** 
+ * This test is testing equivalence class
+ * int column: (negative)
+ * 
+ * The test setups up a table of one column
+ * through mocking. getValue(0, -1) will
+ * return 0 based on the java documentation.
+ */
+@Test(expected = IndexOutOfBoundsException.class)
 public void calculateColumnIndexNegative()
 {
 	mocking.checking(new Expectations()
@@ -97,19 +119,23 @@ public void calculateColumnIndexNegative()
 			one(values).getRowCount();
 			will(returnValue(1)); 
 			one(values).getValue(0, -1); 
-			will(returnValue(0));
+			will(throwException(new IndexOutOfBoundsException("Index out of range")));  
 		}
 	});
-	
-	double result = DataUtilities.calculateColumnTotal(values, -1);
-	
-	assertEquals("The total value of column -1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+
+	DataUtilities.calculateColumnTotal(values, -1);
 }
 ~~~
-* Test case #3 tests equivalence (negative) from int column. A mocking object is set up with the incorrect index to observe if calculateColumnTotal() does accurate error checking on the index value. A mocking object is extremely useful here since a negative index does not mean the last entry in the table, but rather the only entry. In the documentation, a negative index should also return zero like the previous test case because the column technically does not exist if this was a real object. In the end, this test passes.
+* Test case #3 tests equivalence (negative) from int column. A mocking object is set up with the incorrect index to observe if calculateColumnTotal() does accurate error checking on the index value. A mocking object is extremely useful here since a negative index does not mean the last entry in the table, but rather the only entry. In the documentation, a negative index should also result in an IndexOutOfBoundsException. In the end, this test also passes.
 
 ~~~java
 //Test Case #4:
+/** 
+ * This test is testing equivalence class
+ * Values2D data: (0) rows
+ * 
+ * The test setups up an empty table.
+ */
 @Test
 public void tableHasZeroRows()
 {
@@ -129,7 +155,14 @@ public void tableHasZeroRows()
 * This Test Case #4 tests the expected value of when a table is empty. This is the equivalnce class (0) from Values2D data. According to the documentation this should return 0.0. The use of a mocking object is useful here to ensure that the constructor of Values2D is not interferring with our testing. In the end, this test passes.
 
 ~~~java
-//Test Case #5
+//Test Case #5:
+/** 
+ * This test is testing equivalence class
+ * Values2D data: (null)
+ * 
+ * The test has no setup and just passes null
+ * value rather than a Values2D object.
+ */
 @Test(expected = IllegalArgumentException.class)
 public void dataObjectInvalid()
 {	
@@ -156,6 +189,13 @@ Returns the sum of the values in one row of the supplied data table.
 
 ~~~java
 //Test Case #1:
+/** 
+ * This test is testing both equivalence classes
+ * Values2D data: (1-infinity) columns
+ * int row: (inside data’s indices)
+ * The reason these are both in the same test
+ * is because they are testing in the exact same manner
+ */
 @Test 
 public void calculateTwoValues() 
 {
@@ -170,9 +210,9 @@ public void calculateTwoValues()
 			will(returnValue(13));
 		}
 	});
-	
+
 	double result = DataUtilities.calculateRowTotal(values, 0);
-	
+
 	assertEquals("The total value of row 0 should be 23.0", 23.0 , result, .000000001d); 
 }
 ~~~
@@ -180,7 +220,16 @@ public void calculateTwoValues()
 
 ~~~java
 //Test Case #2:
-@Test
+/** 
+ * This test is testing equivalence class
+ * int row: (outside data’s indices)
+ * 
+ * The test setups up a table of one column
+ * through mocking. getValue(1, 0) will
+ * return throw an exception 
+ * based on the java documentation.
+ */
+@Test(expected = IndexOutOfBoundsException.class)
 public void calculateRowIndexOutofRange()
 {
 	mocking.checking(new Expectations()
@@ -189,20 +238,27 @@ public void calculateRowIndexOutofRange()
 			one(values).getColumnCount();
 			will(returnValue(1));
 			one(values).getValue(1, 0); 
-			will(returnValue(0)); 
+			will(throwException(new IndexOutOfBoundsException("Index out of range"))); 
 		}
 	});
-	
-	double result = DataUtilities.calculateRowTotal(values, 1);
-	
-	assertEquals("The total value of row 1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+
+	DataUtilities.calculateRowTotal(values, 1);
 }
+	
 ~~~
-* Test case #2 accounts for the equivalence class (outside data's indices) from int row. The documentation specifies that when row is out of range that 0 will be returned by calculateRowTotal(). Thus, a mocking object is set up with a table of 1 row to ensure that 0 is not returned because there is no table to begin with. The use of mocking is not necessary here, however, since these the expectations set up are not used. So a normal Values2D object could have been used with just one row. In the end, this test passes.
+* Test case #2 accounts for the equivalence class (outside data's indices) from int row. The documentation specifies that when row is out of range that an IndexOutofBoundsException will be thrown by getValue(). The use of mocking is disadvantagous here, however, since these the expectations defeat the purpose of testing the repsonse of calculateRowTotal() because all testing is based on the expectations. In the end, this test passes.
 
 ~~~java
 //Test Case #3:
-@Test
+/** 
+ * This test is testing equivalence class
+ * int row: (negative)
+ * 
+ * The test setups up a table of one column
+ * through mocking. getValue(-1, 0) will
+ * return 0 based on the java documentation.
+ */
+@Test(expected = IndexOutOfBoundsException.class)
 public void calculateRowIndexNegative()
 {
 	mocking.checking(new Expectations()
@@ -211,21 +267,26 @@ public void calculateRowIndexNegative()
 			one(values).getColumnCount();
 			will(returnValue(1)); 
 			one(values).getValue(-1, 0); 
-			will(returnValue(0)); 
+			will(throwException(new IndexOutOfBoundsException("Index out of range")));  
 		}
 	});
-	
-	double result = DataUtilities.calculateRowTotal(values, -1);
-	
-	assertEquals("The total value of row -1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+
+	DataUtilities.calculateRowTotal(values, -1);
 }
+	
 ~~~
-* Test case #3 tests equivalence (negative) from int row. A mocking object is set up with the incorrect index to observe if calculateRowTotal() does accurate error checking on the index value. A mocking object is extremely useful here since a negative index does not mean the last entry in the table, but rather the only entry. In the documentation, a negative index should also return zero like the previous test case because the row technically does not exist if this was a real object. In the end, this test passes.
+* Test case #3 tests equivalence (negative) from int row. A mocking object is set up with the incorrect index to observe if calculateRowTotal() does accurate error checking on the index value. A mocking object is extremely useful here since a negative index does not mean the last entry in the table, but rather the only entry. In the documentation, a negative index should also result in an IndexOutOfBoundsException. In the end, this test also passes.
 
 ~~~java
 //Test Case #4:
+/** 
+ * This test is testing equivalence class
+ * Values2D data: (0) columns
+ * 
+ * The test setups up an empty table.
+ */
 @Test
-public void tableHasZeroRows()
+public void tableHasZeroColumns()
 {
 	mocking.checking(new Expectations()
 	{
@@ -234,9 +295,9 @@ public void tableHasZeroRows()
 			will(returnValue(0)); 
 		}
 	});
-	
+
 	double result = DataUtilities.calculateRowTotal(values, 0);
-	
+
 	assertEquals("The total value of should be 0 because this table has no rows", 0.0, result, .000000001d); 
 }
 ~~~
@@ -244,6 +305,13 @@ public void tableHasZeroRows()
 
 ~~~java
 //Test Case #5:
+/** 
+ * This test is testing equivalence class
+ * Values2D data: (null)
+ * 
+ * The test has no setup and just passes null
+ * value rather than a Values2D object.
+ */
 @Test(expected = IllegalArgumentException.class)
 public void dataObjectInvalid()
 {
@@ -266,6 +334,11 @@ Constructs an array of Number objects from an array of double
 
 ~~~java
 // Test Case #1:
+/**
+ * This class is testing
+ * equivalence class "data could
+ * have (1-infinity) length"
+ */
 @Test
 public void compareValidArray() 
 {
@@ -280,6 +353,11 @@ public void compareValidArray()
 
 ~~~java
 // Test Case #2:
+/**
+ * This class is testing
+ * equivalence class "data could
+ * have (0) length"
+ */
 @Test
 public void compareEmptyArray() 
 {
@@ -294,6 +372,11 @@ public void compareEmptyArray()
 
 ~~~java
 // Test Case #3:
+/**
+ * This class is based on an additional
+ * test case where it ensures the return
+ * type is correct.
+ */
 @Test
 public void testReturnType()
 {
