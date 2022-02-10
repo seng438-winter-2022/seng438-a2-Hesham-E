@@ -27,8 +27,8 @@ Text…
 the source code method // they test. identify which tests cover which partitions
 you have explained in the test strategy section //above
 
-org.jfree.data.DataUtilities:
-static double calculateColumnTotal(Values2D data, int column)
+# org.jfree.data.DataUtilities:
+#### static double calculateColumnTotal(Values2D data, int column)
 Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
 
 * Ranges of values:
@@ -139,7 +139,7 @@ public void dataObjectInvalid()
 * Test Case #5 corresponds to the final equivalnce class (null) from Values 2D. Unlike the previous two tests when a table is empty, if the object is just null then calculateColumnTotal() throws an exception. Mocking is absolutely unnecessary in this case since null is passed rather than Values2D data. This test passes.
 
 
-static double calculateRowTotal(Values2D data, int row)
+#### static double calculateRowTotal(Values2D data, int row)
 Returns the sum of the values in one row of the supplied data table.
 
 * Ranges of values:
@@ -254,16 +254,56 @@ public void dataObjectInvalid()
 
 
 
-static java.lang.Number[] createNumberArray(double[] data)
-Constructs an array of Number objects from an array of double primitives.
+#### static java.lang.Number[] createNumberArray(double[] data)
+Constructs an array of Number objects from an array of double 
 
-    Ranges of values:
-      data could have (0)(1-infinity) length
-    Number of equivalence classes:
-      There are two equivalence classes here. One when data is empty and the other when it is not.
-    Strong vs Weak equivalence classes:
-      In this case the equivalence classes are weak since they are not related to each other. Thus, there are 1 + 1 test cases based on the equivalence classes.
-    Supplementary Notes:
+* Ranges of values:
+    * data could have (0)(1-infinity) length
+* Number of equivalence classes:
+    * There are two equivalence classes here. One when data is empty and the other when it is not.
+* Strong vs Weak equivalence classes:
+    * In this case the equivalence classes are weak since they are not related to each other. Thus, there are 1 + 1 test cases based on the equivalence classes. One more test case can be added to this though to ensure that the return type is correct. However, since data is of type double[] boundary value cases cannot be developed based on type conversions since double fits all integers.
+
+~~~java
+// Test Case #1:
+@Test
+public void compareValidArray() 
+{
+	double[] testData = {1, 2, 3};
+	Double[] expected = {1.0, 2.0, 3.0};
+	Number[] result = DataUtilities.createNumberArray(testData);
+	
+	Assert.assertArrayEquals("The returned array should be {1, 2, 3}", expected, result); 
+}
+~~~
+* In this test case, the equivalnce class of (1-infinity) length was tested. The use of mocking was not necessary in this case since the input and return values are standard Java types. In the end, this test passes since the value of the numbers do not change but the type does.
+
+~~~java
+// Test Case #2:
+@Test
+public void compareEmptyArray() 
+{
+	double[] testData = {};
+	Double[] expected = {};
+	Number[] result = DataUtilities.createNumberArray(testData);
+	
+	Assert.assertArrayEquals("The returned array should be {}", expected, result); 
+}
+~~~
+* For test case #2, the equivalnce class of (0) length is being tested. Again, there is no need for a mocking object since these are all standard Java variable types. This test also passes since the returned array is also empty.
+
+~~~java
+// Test Case #3:
+@Test
+public void testReturnType()
+{
+	double[] testData = {};
+	Number[] result = DataUtilities.createNumberArray(testData);
+	
+	Assert.assertTrue("Return type should be Number[]", result instanceof Number[]); 
+}
+~~~
+* For test case #3, this was a precaution taken and not a specific equivalnce class. Testing the return type meant testing if the polymorphism worked to create a Number object from a primitive type double. In this test as well, there is no need for mocking. Finally, this test passes since the correct return type was detected.
 
 
 
