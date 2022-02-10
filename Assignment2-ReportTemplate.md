@@ -306,6 +306,163 @@ public void testReturnType()
 
 
 
+#### static KeyedValues getCumulativePercentages(KeyedValues data)
+Returns the sum of the values in one row of the supplied data table.
+
+* Ranges of values:
+    * KeyedValues data: (non-null KeyedValues object)
+* Number of equivalence classes:
+	* KeyedValues has 1 equivalence class which is a KeyedValues object that is not a null
+* Strong vs Weak equivalence classes:
+    * Since the method takes one argument, we can approach it with a strong equivalence class. Since we only have one equivalent class, we can extensively make sure the bounds are correct and the numeric types within the KeyedValues are tested correctly. The minimum tests should be atleast one, however, we will be doing exploratory tests extensively to make sure the method functions properly
+* Supplementary Notes:
+    * Hefty Java Doc pre-reading was required to properly test the method.
+
+~~~java
+//Test Case #1:
+@Test 
+public void firstValueShouldBe0_25() {
+		
+		mockingContext.checking(new Expectations(){
+			{
+				allowing(values).getItemCount();
+				will(returnValue(4));
+				
+				allowing(values).getValue(0);
+				will(returnValue(1));
+				allowing(values).getValue(1);
+				will(returnValue(1));
+				allowing(values).getValue(2);
+				will(returnValue(1));
+				allowing(values).getValue(3);
+				will(returnValue(1));
+				
+				
+			
+				allowing(values).getKey(0);
+				will(returnValue(0));
+				allowing(values).getKey(1);
+				will(returnValue(1));
+				allowing(values).getKey(2);
+				will(returnValue(2));
+				allowing(values).getKey(3);
+				will(returnValue(3));
+		
+				
+			}
+			
+		});
+		double result = DataUtilities.getCumulativePercentages(values).getValue(0).doubleValue();
+		//pain.
+		int check = values.getValue(1).intValue();
+		assertEquals("Check" , 0.25, result,0);
+	}
+~~~
+* Test case #1, Makes sure the properly cumulative percentage is correctly being calculate. With a count of four and each value is one, we can check the first value knowing that the result KeyedValues is uniform.
+~~~Java
+//Test case #;
+@Test
+	public void lastValueShouldBe1() {
+		
+		mockingContext.checking(new Expectations(){
+			{
+				allowing(values).getItemCount();
+				will(returnValue(4));
+				
+				allowing(values).getValue(0);
+				will(returnValue(1));
+				allowing(values).getValue(1);
+				will(returnValue(1));
+				allowing(values).getValue(2);
+				will(returnValue(1));
+				allowing(values).getValue(3);
+				will(returnValue(1));
+				
+				
+			
+				allowing(values).getKey(0);
+				will(returnValue(0));
+				allowing(values).getKey(1);
+				will(returnValue(1));
+				allowing(values).getKey(2);
+				will(returnValue(2));
+				allowing(values).getKey(3);
+				will(returnValue(3));
+		
+				
+			}
+			
+		});
+		double result = DataUtilities.getCumulativePercentages(values).getValue(3).doubleValue();
+		
+		int check = values.getValue(1).intValue();
+		assertEquals("Check" , 1, result,0);
+	}
+~~~
+* Test case #2, Makes sure the properly cumulative percentage is correctly being calculated. With a count of four and each value is one, we can check the last value knowing that the result KeyedValues is uniform.
+
+~~~Java
+//Test Case #3
+@Test(expected = IllegalStateException.class)
+	public void nullArgument() {
+		mockingContext.checking(new Expectations() {
+			{
+				allowing(values);
+				will(returnValue(null));
+			}	
+			
+				
+				
+		});
+		
+		 DataUtilities.getCumulativePercentages(values);
+	}
+~~~
+* Test Case #3, Null value was inputted to ensure an expected exception was caught.
+~~~Java
+
+//Test Case #4
+@Test
+	public void negativeValueTest() {
+		mockingContext.checking(new Expectations()
+				{
+			{
+				allowing(values).getItemCount();
+				will(returnValue(5));
+				
+				allowing(values).getValue(0);
+				will(returnValue(-1));
+				allowing(values).getValue(1);
+				will(returnValue(1));
+				allowing(values).getValue(2);
+				will(returnValue(1));
+				allowing(values).getValue(3);
+				will(returnValue(1));
+				allowing(values).getValue(4);
+				will(returnValue(1));
+				
+				
+			
+				allowing(values).getKey(0);
+				will(returnValue(0));
+				allowing(values).getKey(1);
+				will(returnValue(1));
+				allowing(values).getKey(2);
+				will(returnValue(2));
+				allowing(values).getKey(3);
+				will(returnValue(3));
+				allowing(values).getKey(4);
+				will(returnValue(4));
+		
+			}
+				}
+				);
+	double result = DataUtilities.getCumulativePercentages(values).getValue(1).doubleValue();
+		assertEquals("Cumulative percentage at index 1 should be 0", 0, result,0);
+	}
+~~~
+* Test Case #4, the test ensures that a negative value inside KeyedValues does not affect the cumulative in a non-proper way.
+
 
 # 4 How the team work/effort was divided and managed
 
