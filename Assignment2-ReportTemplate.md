@@ -29,70 +29,134 @@ you have explained in the test strategy section //above
 
 org.jfree.data.DataUtilities:
 static double calculateColumnTotal(Values2D data, int column)
-          Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
+Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
 
-    Ranges of values:
-      Values2D data:
-      data has (0)(1-infinity) rows
-      data is (null)
-      int column:
-      column index is (inside data’s indices)(outside data’s indices)(negative)
-    Number of equivalence classes:
-      Values2D data:
-      Has 3 equivalence classes which are (null)(data with 0 rows)(data with 1-infinity rows)
-      int column:
-      Has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
-    Strong vs Weak equivalence classes:
-      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
-      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested in the exact same way. Furthermore, there is no boundary value in this case that may cause an aberrant value.
-    Test Case #1:
-    ```java
-    {
-          public void calculateTwoValues() 
+* Ranges of values:
+    * Values2D data has (0)(1-infinity) rows OR data is (null)
+    * int column index is (inside data’s indices)(outside data’s indices)(negative)
+* Number of equivalence classes:
+    * Values2D data has 3 equivalence classes which are (null)(data with 0 rows)(data with 1-infinity rows)
+    * int column has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
+* Strong vs Weak equivalence classes:
+    * In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
+    * Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested in the exact same way. Furthermore, there is no boundary value that may cause an aberrant value that is not already covered by the equivalnce classes.
+~~~java
+//Test Case #1:
+@Test
+public void calculateTwoValues() 
+{
+	mocking.checking(new Expectations()
 	{
-		mocking.checking(new Expectations()
 		{
-			{
-                                        one(values).getColumnCount();
-                                        will(returnValue(2)); 
-                                        one(values).getValue(0, 0); 
-                                        will(returnValue(10)); 
-                                        one(values).getValue(0, 1); 
-                                        will(returnValue(13));
-			}
-		});
-		
-		double result = DataUtilities.calculateRowTotal(values, 0);
-		
-		assertEquals("The total value of row 0 should be 23.0", 23.0 , result, .000000001d); 
-	}
-    }
-    ```java
+			one(values).getRowCount();
+			will(returnValue(2)); 
+			one(values).getValue(0, 0); 
+			will(returnValue(10)); 
+			one(values).getValue(1, 0); 
+			will(returnValue(13));
+		}
+	});
+	
+	double result = DataUtilities.calculateColumnTotal(values, 0);
+	
+	assertEquals("The total value of column 0 should be 23.0", 23.0 , result, .000000001d); 
+}
+~~~
+* Test case #1 accounts for both the equivalence class (1-infinity) from Values2D data and (inside data's indices) from int column. The mocking object sets the expectation for calculateColumnTotal() that there are 2 rows available. In this test, there is no clear downside to using mocking since calculateColumnTotal() expects a certain number of values which it is given. In the end, this test passes.
+
+~~~java
+//Test Case #2:
+@Test
+public void calculateColumnIndexOutofRange()
+{
+	mocking.checking(new Expectations()
+	{
+		{
+			one(values).getRowCount();
+			will(returnValue(1));
+			one(values).getValue(0, 1);
+			will(returnValue(0));
+		}
+	});
+	
+	double result = DataUtilities.calculateColumnTotal(values, 1);
+	
+	assertEquals("The total value of column 1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+}
+~~~
+* Test case #2 accounts for the equivalence class (outside data's indices) from int column. The documentation specifies that when column is out of range that 0 will be returned by calculateColumnTotal(). Thus, a mocking object is set up with a table of 1 row to ensure that 0 is not returned because there is no table to begin with. The use of mocking is not necessary here, however, since these the expectations set up are not used. So a normal Values2D object could have been used with just one column. In the end, this test passes.
+
+~~~java
+//Test Case #3:
+@Test
+public void calculateColumnIndexNegative()
+{
+	mocking.checking(new Expectations()
+	{
+		{
+			one(values).getRowCount();
+			will(returnValue(1)); 
+			one(values).getValue(0, -1); 
+			will(returnValue(0));
+		}
+	});
+	
+	double result = DataUtilities.calculateColumnTotal(values, -1);
+	
+	assertEquals("The total value of column -1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+}
+~~~
+* Test case #3 tests equivalence (negative) from int column. A mocking object is set up with the incorrect index to observe if calculateColumnTotal() does accurate error checking on the index value. A mocking object is extremely useful here since a negative index does not mean the last entry in the table, but rather the only entry. In the documentation, a negative index should also return zero like the previous test case because the column technically does not exist if this was a real object. In the end, this test passes.
+
+~~~java
+//Test Case #4:
+@Test
+public void tableHasZeroRows()
+{
+	mocking.checking(new Expectations()
+	{
+		{
+			one(values).getRowCount();
+			will(returnValue(0)); 
+		}
+	});
+	
+	double result = DataUtilities.calculateColumnTotal(values, 0);
+	
+	assertEquals("The total value of should be 0 because this table has no rows", 0.0, result, .000000001d); 
+}
+~~~
+* This Test Case #4 tests the expected value of when a table is empty. This is the equivalnce class (0) from Values2D data. According to the documentation this should return 0.0. The use of a mocking object is useful here to ensure that the constructor of Values2D is not interferring with our testing. In the end, this test passes.
+
+~~~java
+//Test Case #5
+@Test(expected = IllegalArgumentException.class)
+public void dataObjectInvalid()
+{	
+	DataUtilities.calculateColumnTotal(null, 0);
+}
+~~~
+* Test Case #5 corresponds to the final equivalnce class (null) from Values 2D. Unlike the previous two tests when a table is empty, if the object is just null then calculateColumnTotal() throws an exception. Mocking is absolutely unnecessary in this case since null is passed rather than Values2D data. This test passes.
 
 
 static double calculateRowTotal(Values2D data, int row)
           Returns the sum of the values in one row of the supplied data table.
 
-    Ranges of values:
-      Values2D data:
-      data has (0)(1-infinity) columns
-      data is (null)
-      int row:
-      row index is (inside data’s indices)(outside data’s indices)(negative)
-    Number of equivalence classes:
-      Values2D data:
-      Has 3 equivalence classes which are (null)(data with 0 columns)(data with 1-infinity columns)
-      int column:
-      Has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
-    Strong vs Weak equivalence classes:
-      In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
-      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity columns) are tested with the exact same method.
-    Supplementary Notes:
+* Ranges of values:
+    * Values2D data has (0)(1-infinity) columns or is (null)
+    * int row index is (inside data’s indices), (outside data’s indices), or (negative)
+* Number of equivalence classes:
+    * Values2D data has 3 equivalence classes which are (null)(data with 0 columns)(data with 1-infinity columns)
+    * int column has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
+* Strong vs Weak equivalence classes:
+    * In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
+    * Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity columns) are tested with the exact same method.
+Supplementary Notes:
 
 
 
 static java.lang.Number[] createNumberArray(double[] data)
-          Constructs an array of Number objects from an array of double primitives.
+Constructs an array of Number objects from an array of double primitives.
 
     Ranges of values:
       data could have (0)(1-infinity) length
