@@ -298,9 +298,8 @@ public void compareEmptyArray()
 public void testReturnType()
 {
 	double[] testData = {};
-	Number[] result = DataUtilities.createNumberArray(testData);
-	
-	Assert.assertTrue("Return type should be Number[]", result instanceof Number[]); 
+		
+	Assert.assertTrue("Return type should be Number[]", DataUtilities.createNumberArray(testData) instanceof Number[]);  
 }
 ~~~
 * For test case #3, this was a precaution taken and not a specific equivalnce class. Testing the return type meant testing if the polymorphism worked to create a Number object from a primitive type double. In this test as well, there is no need for mocking. Finally, this test passes since the correct return type was detected.
