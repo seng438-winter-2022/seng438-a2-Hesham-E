@@ -44,9 +44,28 @@ static double calculateColumnTotal(Values2D data, int column)
       Has 3 equivalence classes which are index is (inside data’s indices)(outside data’s indices)(negative)
     Strong vs Weak equivalence classes:
       In this case the equivalence classes are weak since the inputs are mutually exclusive because they can be any value and only the result will change. For example, there is no boundary case between the two inputs that only appears when both have a specific value.
-      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested with the exact same method.
-    Supplementary Notes:
-
+      Given this explanation, there will be six (3 + 3) tests developed for this function. However, since there is some overlap between the test cases we have only created 5 test cases. This is because, testing (inside data’s indices) and (data with 1-infinity rows) are tested in the exact same way. Furthermore, there is no boundary value in this case that may cause an aberrant value.
+    Test Case #1:
+    ```java
+          public void calculateTwoValues() 
+	{
+		mocking.checking(new Expectations()
+		{
+			{
+                                        one(values).getColumnCount();
+                                        will(returnValue(2)); 
+                                        one(values).getValue(0, 0); 
+                                        will(returnValue(10)); 
+                                        one(values).getValue(0, 1); 
+                                        will(returnValue(13));
+			}
+		});
+		
+		double result = DataUtilities.calculateRowTotal(values, 0);
+		
+		assertEquals("The total value of row 0 should be 23.0", 23.0 , result, .000000001d); 
+	}
+    ```java
 
 
 static double calculateRowTotal(Values2D data, int row)
