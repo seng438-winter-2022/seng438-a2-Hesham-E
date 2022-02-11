@@ -21,12 +21,6 @@ For the ten methods we have chosen to develop our equivalence classes first. In 
 
 # 3 Test cases developed
 
-Text…
-
-// write down the name of the test methods and classes. Organize the based on
-the source code method // they test. identify which tests cover which partitions
-you have explained in the test strategy section //above
-
 # org.jfree.data.DataUtilities:
 #### static double calculateColumnTotal(Values2D data, int column)
 Returns the length of the range
@@ -543,7 +537,7 @@ public void firstValueShouldBe0_25() {
 ~~~
 * Test Case #4, the test ensures that a negative value inside KeyedValues does not affect the cumulative in a non-proper way.
 
-
+# org.jfree.data.Range:
 #### double getCentralValue()
 Returns the length of the range
 * Range of values:
