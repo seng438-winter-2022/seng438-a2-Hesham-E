@@ -647,7 +647,7 @@ public void secondtValueShouldBe0_50() {
 	assertEquals("The cumulative percentage at index 1 should be undefined(NaN)", 0,result, 0);
 	}
 ~~~
-* Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes. In this context, zeroes should be expected for all the values in the returned KeyedValues object, however, the test case fails. The values inside the returned KeyedValues object are all "NaN", instead of zeroes.
+* Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes.
 
 
 #### double getCentralValue()
@@ -665,48 +665,52 @@ Returns the length of the range
 //Test Case #1
 @Test
 public void valueShouldBe2(){
-	//Test Case #1
 	testRange = new Range(1,3);
-	assertEquals("The value between 1 and 3 should be 2", 2.00, testRange.getCentralValue(), 0);
+	assertEquals("The value between 1 and 3 should be 2", 2, testRange.getCentralValue(), 0);
 	
 }
 ~~~
-* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 3 and Lower double being 1), the expected value is 2.00, in which case the test passes.
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test.
 
 ~~~Java
 //Test Case #2
 @Test
 public void lengthBetweenZeroAndZero() {
-	//Test Case #2
 	testRange = new Range(0,0);
 	assertEquals("value should be 0", 0, testRange.getLength(),0);
 }
 ~~~
-* Test Case #2, ensuring the method works properly with various data. Inside the Range object we setup Upper to be 0 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 0 and Lower double being 0), the expected value is 0.00, in which case the test passes.
+* Test Case #2, checking the central value between the same value, and in this case zeroes are used as well. Inside 
 
 
 ~~~Java
 @Test
 public void lengthBetweenZeroAndBigNumber() {
-	//Test Case #3
 	testRange = new Range(0,300);
 	assertEquals("value should be 300", 300, testRange.getLength(),0);
 }
 ~~~
-* Test Case #3, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 300 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring a zero value does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 300 and Lower double being 0), the expected value is 300.00, in which case the test passes.
+* Test Case #3, testing by setting the lower bound to zero and an upper bound to a non-zero. Testing proper calculations with zeroes.
 
 
 ~~~Java
-//Test Case #4
 @Test
 public void lengthBetweenNonIntegers() {
 	testRange = new Range(-1.9,20.5);
 	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
 }
 ~~~
-* Test Case #4, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 20.5 and Lower to be -1.9. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring negative values does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 20.5 and Lower double being -1.9), the expected value is 22.4, in which case the test passes.
+* Test Case #4, testing calculations between non integer numbers. Ensuring decimals and other non integer numbers are accounted properly.
 
 
+~~~Java
+@Test
+public void lengthBetweenIntegerAndNonInteger() {
+	testRange = new Range(0,69.420);
+	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
+}
+~~~
+* Test Case #5, testing calculations between an integer and a non integer.
 
 #### double getLength()
 Returns the length of the range
@@ -809,6 +813,152 @@ toStringTest: Create a range object {3.0, 11.0} and call toString(). The expecte
  public void toStringTest() {
     	assertEquals("The strings are not equal", "Range[3.0,11.0]" , this.exampleRange.toString());
     }
+~~~
+
+#### double upperBoundaryTest()
+
+* This function uses the getUpperBound method to return the upper boundary within a given range.
+* 5 tests have been done and no bug was detected.
+* Tested with 2 positives bound values (0, 1), 2 negative bound values(-2, -1), one positive and one negative bound value (-5, 1) within the range
+* Also tested using same positive and negative values within the range. For example, (1, 1) & (-1, -1)
+
+~~~Java
+
+public class upperBoundaryTest {
+	
+	/*
+	 * Test Case #1
+	 * Test using two positive values within a range.
+	 * Both lower bound value and upper bound value are positive.
+	 */
+        
+	@Test
+	public void Positives() {
+		assertEquals("Upper bound should be 1", 1, new Range(0, 1).getUpperBound(), .000000001d);   //Two positive test
+	}
+	~~~
+	
+	~~~Java
+	/*
+	 * Test using two negative values within a range.
+	 * Both lower bound value and upper bound value are negative.
+	 */
+	
+	@Test
+	public void Negatives() {
+		assertEquals("Upper bound should be -1", -1, new Range(-2, -1).getUpperBound(), .000000001d);    //Two negative test
+	}
+	~~~
+	~~~Java
+	/*
+	 * Test using a positive and a negative value within a range.
+	 * A negative lower bound and a positive upper bound taken for test.
+	 */
+	
+	@Test
+	public void Both() {
+		assertEquals("Upper bound should be 1", 1, new Range(-5, 1).getUpperBound(), .000000001d);  //Pos-Neg test
+	}
+	~~~
+	
+	~~~Java
+
+	/*
+	 * Test using same positive values within a range.
+	 * Both lower bound value and upper bound value are positive and same.
+	 */
+	
+	@Test
+	public void SameValPos() {
+		assertEquals("Upper bound should be 1", 1, new Range(1, 1).getUpperBound(), .000000001d);  // same value (positives) bound test
+	}
+	~~~
+	~~~Java
+	/*
+	 * Test using same negative values within a range.
+	 * Both lower bound value and upper bound value are negative and same.
+	 */
+	
+	@Test
+	public void SameValNeg() {
+		assertEquals("Upper bound should be 1", -1, new Range(-1, -1).getUpperBound(), .000000001d);  // same value (negatives) bound test
+	}
+
+~~~
+
+#### double LowerBoundaryTest()
+
+* This function uses the getLowerBound method to return the upper boundary within a given range.
+* 5 tests have been done and no bug was detected.
+* Tested with 2 positives bound values (0, 1), 2 negative bound values(-2, -1), one positive and one negative bound value (-5, 1) within the range
+* Also tested using same positive and negative values within the range. For example, (1, 1) & (-1, -1)
+
+~~~Java
+package org.jfree.data.test;
+import org.jfree.data.Range;
+import static org.junit.Assert.*;
+
+import org.junit.*;
+
+public class LowerBoundaryTest {
+
+	/*
+	 * Test using two positive values within a range.
+	 * Both lower bound value and upper bound value are positive.
+	 */
+	
+	@Test
+	public void Positives() {
+		assertEquals("Lower bound should be 1", 1, new Range(1, 2).getLowerBound(), .000000001d);   //Two positive test
+	}
+	
+	/*
+	 * Test using two negative values within a range.
+	 * Both lower bound value and upper bound value are negative.
+	 */
+	
+	@Test
+	public void Negatives() {
+		assertEquals("Lower bound should be -2", -2, new Range(-2, -1).getLowerBound(), .000000001d);    //Two negative test
+	}
+	
+	/*
+	 * Test using a positive and a negative value within a range.
+	 * A negative lower bound and a positive upper bound taken for test.
+	 */
+	
+	@Test
+	public void Both() {
+		assertEquals("Lower bound should be -5", -5, new Range(-5, 1).getLowerBound(), .000000001d);  //Pos-Neg test
+	}
+	
+	/*
+	 * Test using same positive values within a range.
+	 * Both lower bound value and upper bound value are positive and same.
+	 */
+	
+	@Test
+	public void SameValPos() {
+		assertEquals("Lower bound should be 1", 1, new Range(1, 1).getLowerBound(), .000000001d);  // same value (positives) bound test
+	}
+	
+	/*
+	 * Test using same negative values within a range.
+	 * Both lower bound value and upper bound value are negative and same.
+	 */
+	
+	@Test
+	public void SameValNeg() {
+		assertEquals("Lower bound should be 1", -1, new Range(-1, -1).getLowerBound(), .000000001d);  // same value (negatives) bound test
+	}
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
+}
 ~~~
 
 # 4 How the team work/effort was divided and managed
