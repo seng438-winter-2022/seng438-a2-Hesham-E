@@ -4,6 +4,10 @@ import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.
 
 public class HashCodeTest {
     private Range a,b;
+   
+/**
+* This test checks whether two similiar ranges produce the same hashcode
+**/
     
     @Test
     public void TwoSimiliarTest() {
@@ -11,7 +15,10 @@ public class HashCodeTest {
        b= new Range(0,22);
     	assertEquals("The HashCode for the two Ranges are not the same", b.hashCode(), a.hashCode());
     }
-
+/**
+* This test checks whether two different ranges produce a different hashcode
+**/
+    
     @Test
     public void TwoDifferentTest(){
     a= new Range(1,42);
