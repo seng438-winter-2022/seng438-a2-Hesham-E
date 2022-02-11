@@ -471,9 +471,9 @@ public void firstValueShouldBe0_25() {
 		assertEquals("Check" , 0.25, result,0);
 	}
 ~~~
-* Test case #1, Makes sure the properly cumulative percentage is correctly being calculate. With a count of four and each value is one, we can check the first value knowing that the result KeyedValues is uniform.
+* Test case #1, Makes sure the getCumulativePercentages(KeyedValues data) is working properly with the given correct input. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains four values that are all ones. With the proper input and uniform values, simple median and boundary values can be derived from the getCumulativePercentages(KeyedValues data) method. The expected value from this test case is 0.25, in which case the test passes.
 ~~~Java
-//Test case #;
+//Test case #2;
 @Test
 	public void lastValueShouldBe1() {
 		
@@ -509,13 +509,54 @@ public void firstValueShouldBe0_25() {
 		double result = DataUtilities.getCumulativePercentages(values).getValue(3).doubleValue();
 		
 		int check = values.getValue(1).intValue();
-		assertEquals("Check" , 1, result,0);
+		assertEquals("Check" , 1.00, result,0);
 	}
 ~~~
-* Test case #2, Makes sure the properly cumulative percentage is correctly being calculated. With a count of four and each value is one, we can check the last value knowing that the result KeyedValues is uniform.
+* Test case #2, Makes sure the getCumulativePercentages(KeyedValues data) is working properly with the given correct input. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains four values that are all ones. With the proper input and uniform values, simple median and boundary values can be derived from the getCumulativePercentages(KeyedValues data) method. The expected last boundary value from this test case is 1.00, in which case the test passes.
 
 ~~~Java
 //Test Case #3
+public void secondtValueShouldBe0_50() {
+		
+		mockingContext.checking(new Expectations(){
+			{
+				allowing(values).getItemCount();
+				will(returnValue(4));
+				
+				allowing(values).getValue(0);
+				will(returnValue(1));
+				allowing(values).getValue(1);
+				will(returnValue(1));
+				allowing(values).getValue(2);
+				will(returnValue(1));
+				allowing(values).getValue(3);
+				will(returnValue(1));
+				
+				
+			
+				allowing(values).getKey(0);
+				will(returnValue(0));
+				allowing(values).getKey(1);
+				will(returnValue(1));
+				allowing(values).getKey(2);
+				will(returnValue(2));
+				allowing(values).getKey(3);
+				will(returnValue(3));
+		
+				
+			}
+			
+		});
+		double result = DataUtilities.getCumulativePercentages(values).getValue(1).doubleValue();
+		//pain.
+		
+		assertEquals("Check" , 0.50, result,0);
+	}
+~~~
+* Test case #3, Makes sure the getCumulativePercentages(KeyedValues data) is working properly with the given correct input. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains four values that are all ones. With the proper input and uniform values, simple median and boundary values can be derived from the getCumulativePercentages(KeyedValues data) method. The expected median value from this test case is 0.50, in which case the test passes.
+
+~~~Java
+//Test Case #4
 @Test(expected = IllegalStateException.class)
 	public void nullArgument() {
 		mockingContext.checking(new Expectations() {
@@ -531,10 +572,10 @@ public void firstValueShouldBe0_25() {
 		 DataUtilities.getCumulativePercentages(values);
 	}
 ~~~
-* Test Case #3, Null value was inputted to ensure an expected exception was caught.
+* Test Case #4, Null value was inputted to ensure an expected exception was caught. The getCumulativePercentages(KeyedValues data) does not permit null values as input. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the object it self is mocked to act as a null KeyedValues object. The test case expects an Illegal State exception, in which case the test passes.
 ~~~Java
 
-//Test Case #4
+//Test Case #5
 @Test
 	public void negativeValueTest() {
 		mockingContext.checking(new Expectations()
@@ -571,10 +612,42 @@ public void firstValueShouldBe0_25() {
 				}
 				);
 	double result = DataUtilities.getCumulativePercentages(values).getValue(1).doubleValue();
-		assertEquals("Cumulative percentage at index 1 should be 0", 0, result,0);
+		assertEquals("Cumulative percentage at index 1 should be 0", 0.00, result,0);
 	}
 ~~~
-* Test Case #4, the test ensures that a negative value inside KeyedValues does not affect the cumulative in a non-proper way.
+* Test case #5, Makes sure the getCumulativePercentages(KeyedValues data) is working properly with the given correct input. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains five values, first value being a negative one and the rest of the four being ones. With the proper input and uniform values (magnitude wise). This exploratory test ensures that a negative value is accomdated properly within the getCumulativePercentages(KeyedValues data) method. The test case expects a 0.00 in the second value of the returned KeyedValues object, in which case the test passes.
+
+~~~Java
+//Test Case #6
+@Test
+	public void allZeroesTest() {
+		mockingContext.checking(new Expectations() {
+			{
+				allowing(values).getItemCount();
+				will(returnValue(3));
+				
+				allowing(values).getValue(0);
+				will(returnValue(0));
+				allowing(values).getValue(1);
+				will(returnValue(0));
+				allowing(values).getValue(2);
+				will(returnValue(0));
+				
+				allowing(values).getKey(0);
+				will(returnValue(0));
+				allowing(values).getKey(1);
+				will(returnValue(1));
+				allowing(values).getKey(2);
+				will(returnValue(2));
+				
+			}
+		});
+		
+		double result = DataUtilities.getCumulativePercentages(values).getValue(1).doubleValue();
+	assertEquals("The cumulative percentage at index 1 should be undefined(NaN)", 0,result, 0);
+	}
+~~~
+* Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes.
 
 
 #### double getCentralValue()
