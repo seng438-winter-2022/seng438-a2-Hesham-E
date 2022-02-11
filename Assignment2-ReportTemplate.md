@@ -385,7 +385,7 @@ public void testReturnType()
 ~~~
 * For test case #3, this was a precaution taken and not a specific equivalnce class. Testing the return type meant testing if the polymorphism worked to create a Number object from a primitive type double. In this test as well, there is no need for mocking. Finally, this test passes since the correct return type was detected.
 
-#### static static Number[][] createNumberArray2D(double[][] data)
+#### static Number[][] createNumberArray2D(double[][] data)
 Constructs an array of Number objects from an array of double 
 
 * Ranges of values:
