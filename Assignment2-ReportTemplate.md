@@ -665,7 +665,7 @@ public void valueShouldBe2(){
 	
 }
 ~~~
-* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test.
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 3 and Lower double being 1), the expected value is 2.00, in which case the test passes.
 
 ~~~Java
 //Test Case #2
@@ -676,7 +676,7 @@ public void valueShouldBe1_5(){
 	
 }
 ~~~
-* Test Case #2, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 2 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring odd length does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 3 and Lower double being 1), the expected value is 1.50, in which case the test passes.
+* Test Case #2, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 2 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring odd length does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 2 and Lower double being 1), the expected value is 1.50, in which case the test passes.
 
 
 ~~~Java
