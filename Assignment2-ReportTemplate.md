@@ -23,11 +23,7 @@ We have to utilize Mock Objects to test the class org.jfree.data.DataUtilities b
 
 # 3 Test cases developed
 
-Text…
 
-// write down the name of the test methods and classes. Organize the based on
-the source code method // they test. identify which tests cover which partitions
-you have explained in the test strategy section //above
 
 # org.jfree.data.DataUtilities:
 #### static double calculateColumnTotal(Values2D data, int column)
