@@ -46,11 +46,6 @@ public void lengthBetweenNonIntegers() {
 	testRange = new Range(-1.9,20.5);
 	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
 }
-@Test
-public void lengthBetweenIntegerAndNonInteger() {
-	testRange = new Range(0,69.420);
-	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
-}
 
 
 
