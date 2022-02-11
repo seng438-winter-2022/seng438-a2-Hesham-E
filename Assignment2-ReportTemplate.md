@@ -828,8 +828,9 @@ public class upperBoundaryTest {
 		assertEquals("Upper bound should be 1", 1, new Range(0, 1).getUpperBound(), .000000001d);   //Two positive test
 	}
 ~~~
+* Test Case #2
 * Test using two negative values within a range.
-* Both lower bound value and upper bound value are negative.
+* Both lower bound value and upper bound values are negative.
 ~~~Java
 	
 	@Test
@@ -837,6 +838,7 @@ public class upperBoundaryTest {
 		assertEquals("Upper bound should be -1", -1, new Range(-2, -1).getUpperBound(), .000000001d);    //Two negative test
 	}
 ~~~
+* Test Case #3
 * Test using a positive and a negative value within a range.
 * A negative lower bound and a positive upper bound taken for test.
 ~~~Java
@@ -846,8 +848,9 @@ public class upperBoundaryTest {
 		assertEquals("Upper bound should be 1", 1, new Range(-5, 1).getUpperBound(), .000000001d);  //Pos-Neg test
 	}
 ~~~
-* Test using same positive values within a range.
-* Both lower bound value and upper bound value are positive and same.
+* Test Case #4
+* Test using same positive value within a range.
+* Both lower bound value and upper bound values are positive and same.
 ~~~Java
 
 	@Test
@@ -855,8 +858,9 @@ public class upperBoundaryTest {
 		assertEquals("Upper bound should be 1", 1, new Range(1, 1).getUpperBound(), .000000001d);  // same value (positives) bound test
 	}
 ~~~
-* Test using same negative values within a range.
-* Both lower bound value and upper bound value are negative and same.
+* Test Case #5
+* Test using same negative value within a range.
+* Both lower bound value and upper bound values are negative and same.
 ~~~Java
 
 	@Test
@@ -868,17 +872,10 @@ public class upperBoundaryTest {
 
 #### double LowerBoundaryTest()
 
-* This function uses the getLowerBound method to return the upper boundary within a given range.
-* 5 tests have been done and no bug was detected.
-* Tested with 2 positives bound values (0, 1), 2 negative bound values(-2, -1), one positive and one negative bound value (-5, 1) within the range
-* Also tested using same positive and negative values within the range. For example, (1, 1) & (-1, -1)
+* All functions uses the getLowerBound method to return the lower boundary within a given range.
+* Test case #1 confirms whether the lower bound value is returned when a range of positive values are given.
 
 ~~~Java
-package org.jfree.data.test;
-import org.jfree.data.Range;
-import static org.junit.Assert.*;
-
-import org.junit.*;
 
 public class LowerBoundaryTest {
 
@@ -892,6 +889,11 @@ public class LowerBoundaryTest {
 		assertEquals("Lower bound should be 1", 1, new Range(1, 2).getLowerBound(), .000000001d);   //Two positive test
 	}
 	
+~~~
+* Test Case #2
+* Test using two negative values within a range.
+* Both lower bound value and upper bound values are negative.
+~~~Java	
 	/*
 	 * Test using two negative values within a range.
 	 * Both lower bound value and upper bound value are negative.
@@ -901,7 +903,11 @@ public class LowerBoundaryTest {
 	public void Negatives() {
 		assertEquals("Lower bound should be -2", -2, new Range(-2, -1).getLowerBound(), .000000001d);    //Two negative test
 	}
-	
+~~~
+* Test Case #3
+* Test using a positive and a negative value within a range.
+* A negative lower bound and a positive upper bound taken for test.
+~~~Java	
 	/*
 	 * Test using a positive and a negative value within a range.
 	 * A negative lower bound and a positive upper bound taken for test.
@@ -911,7 +917,11 @@ public class LowerBoundaryTest {
 	public void Both() {
 		assertEquals("Lower bound should be -5", -5, new Range(-5, 1).getLowerBound(), .000000001d);  //Pos-Neg test
 	}
-	
+~~~
+* Test Case #4
+* Test using same positive value within a range.
+* Both lower bound value and upper bound values are positive and same.
+~~~Java
 	/*
 	 * Test using same positive values within a range.
 	 * Both lower bound value and upper bound value are positive and same.
@@ -921,7 +931,11 @@ public class LowerBoundaryTest {
 	public void SameValPos() {
 		assertEquals("Lower bound should be 1", 1, new Range(1, 1).getLowerBound(), .000000001d);  // same value (positives) bound test
 	}
-	
+~~~
+* Test Case #5
+* Test using same negative value within a range.
+* Both lower bound value and upper bound values are negative and same.
+~~~Java	
 	/*
 	 * Test using same negative values within a range.
 	 * Both lower bound value and upper bound value are negative and same.
@@ -931,14 +945,6 @@ public class LowerBoundaryTest {
 	public void SameValNeg() {
 		assertEquals("Lower bound should be 1", -1, new Range(-1, -1).getLowerBound(), .000000001d);  // same value (negatives) bound test
 	}
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-}
 ~~~
 
 # 4 How the team work/effort was divided and managed
