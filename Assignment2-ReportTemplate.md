@@ -558,7 +558,7 @@ public void valueShouldBe2(){
 	
 }
 ~~~
-* Test Case #1, ensuring the method works properly with correct data. Inside the Range we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test.
 
 ~~~Java
 //Test Case #2
@@ -568,7 +568,7 @@ public void lengthBetweenZeroAndZero() {
 	assertEquals("value should be 0", 0, testRange.getLength(),0);
 }
 ~~~
-* Test Case #2, checking the central value between the same value, and in this case zeroes are used as well.
+* Test Case #2, checking the central value between the same value, and in this case zeroes are used as well. Inside 
 
 
 ~~~Java
