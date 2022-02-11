@@ -26,7 +26,7 @@ public class GetLengthTest {
 public void setUp() throws Exception {}
 
 @Test
-public void lengthBetweenNegatuveOneAndOne() {
+public void lengthBetweenNegativeOneAndOne() {
 	testRange = new Range(-1,1);
 	assertEquals("value should be 2", 2, testRange.getLength(),0);
 }

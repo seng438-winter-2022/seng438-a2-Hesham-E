@@ -651,7 +651,7 @@ public void secondtValueShouldBe0_50() {
 
 
 #### double getCentralValue()
-Returns the length of the range
+Returns the central value of the range
 * Range of values:
 	* There are no arguments for this method, within Range class there is double Upper and double Lower
 	* Upper: a double value that has to be >=Lower
@@ -661,11 +661,11 @@ Returns the length of the range
 * Strong vs Weak equivalence classes:
 	* Since there are very limited inputs, strong equivalence class test can be done without as much work. 
 
+
 ~~~Java
 //Test Case #1
 @Test
 public void valueShouldBe2(){
-	//Test Case #1
 	testRange = new Range(1,3);
 	assertEquals("The value between 1 and 3 should be 2", 2.00, testRange.getCentralValue(), 0);
 	
@@ -676,36 +676,45 @@ public void valueShouldBe2(){
 ~~~Java
 //Test Case #2
 @Test
-public void lengthBetweenZeroAndZero() {
-	//Test Case #2
-	testRange = new Range(0,0);
-	assertEquals("value should be 0", 0, testRange.getLength(),0);
+public void valueShouldBe1_5(){
+	testRange = new Range(1,2);
+	assertEquals("The value between 1 and 2 should be 1.5", 1.5, testRange.getCentralValue(), 0);
+	
 }
 ~~~
-* Test Case #2, ensuring the method works properly with various data. Inside the Range object we setup Upper to be 0 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 0 and Lower double being 0), the expected value is 0.00, in which case the test passes.
+* Test Case #2, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 2 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring odd length does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 3 and Lower double being 1), the expected value is 1.50, in which case the test passes.
 
 
 ~~~Java
+//Test Case #3
 @Test
-public void lengthBetweenZeroAndBigNumber() {
-	//Test Case #3
-	testRange = new Range(0,300);
-	assertEquals("value should be 300", 300, testRange.getLength(),0);
+public void valueShouldBe1(){
+	testRange = new Range(1,1);
+	assertEquals("The value between 1 and 1 should be 1", 1, testRange.getCentralValue(), 0);
+	
 }
 ~~~
-* Test Case #3, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 300 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring a zero value does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 300 and Lower double being 0), the expected value is 300.00, in which case the test passes.
+* Test Case #3, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 1 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring having a central value of zero does not affect the result. Since the two values inside the testRange object are valid (Upper double being 1 and Lower double being 1), the expected value is 0.00, in which case the test passes.
 
 
 ~~~Java
 //Test Case #4
 @Test
-public void lengthBetweenNonIntegers() {
-	testRange = new Range(-1.9,20.5);
-	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
+public void valueShouldBe35_9(){
+	testRange = new Range(21.3,50.5);
+	assertEquals("The value between 21.3 and 50.5 should be 35.9", 35.9, testRange.getCentralValue(), 0);
 }
 ~~~
-* Test Case #4, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 20.5 and Lower to be -1.9. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring negative values does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 20.5 and Lower double being -1.9), the expected value is 22.4, in which case the test passes.
+* Test Case #4, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 50.5 and Lower to be 21.3. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring having non integer boundaries does not affect the result negatively. Since the two values inside the testRange object are valid (Upper double being 50.5 and Lower double being 21.3), the expected value is 35.9, in which case the test passes.
 
+~~~Java
+//Test Case #5
+@Test public void valueShouldBe0() {
+	testRange = new Range(0,0);
+	assertEquals("The value between 0 and 0 should be 0", 0, testRange.getCentralValue(), 0);
+}
+~~~
+* Test Case #5, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 0 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, having both boundaries set to zero, the method can be checked to see if such cases are accommodated. Since the two values inside the testRange object are valid (Upper double being 0 and Lower double being 0), the expected value is 0.00, in which case the test passes.
 
 
 #### double getLength()
@@ -718,57 +727,50 @@ Returns the length of the range
 	* One equivalent class, since there are no arguments and null is not possible. The tests will be will be used with the Upper and Lower value inside Range.
 * Strong vs Weak equivalence classes:
 	* Since there are very limited inputs, strong equivalence class test can be done without as much work. 
-* Supplementary Notes:
-	* The same ideology of method testing can be derived from the previous method getCentralValue()
 
 ~~~Java
 //Test Case #1
 @Test
-public void lengthBetweenNegatuveOneAndOne() {
+public void lengthBetweenNegativeOneAndOne() {
 	testRange = new Range(-1,1);
 	assertEquals("value should be 2", 2, testRange.getLength(),0);
 }
 ~~~
-* 
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be -1 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getLength() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being -1 and Lower double being 1), the expected value is 2.00, in which case the test passes.
+
 
 ~~~Java
 //Test Case #2
 @Test
 public void lengthBetweenZeroAndZero() {
+	//Test Case #2
 	testRange = new Range(0,0);
 	assertEquals("value should be 0", 0, testRange.getLength(),0);
 }
 ~~~
-* 
+* Test Case #2, ensuring the method works properly with various data. Inside the Range object we setup Upper to be 0 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getLength() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 0 and Lower double being 0), the expected value is 0.00, in which case the test passes.
+
 
 ~~~Java
-//Test Case #3
-
 @Test
 public void lengthBetweenZeroAndBigNumber() {
+	//Test Case #3
 	testRange = new Range(0,300);
 	assertEquals("value should be 300", 300, testRange.getLength(),0);
 }
 ~~~
-* 
+* Test Case #3, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 300 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getLength() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring a zero value does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 300 and Lower double being 0), the expected value is 300.00, in which case the test passes.
+
+
 ~~~Java
 //Test Case #4
-
 @Test
 public void lengthBetweenNonIntegers() {
 	testRange = new Range(-1.9,20.5);
 	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
 }
 ~~~
-* 
-~~~Java
-//Test Case #5
-@Test
-public void lengthBetweenIntegerAndNonInteger() {
-	testRange = new Range(0,69.420);
-	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
-}
-~~~
+* Test Case #4, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 20.5 and Lower to be -1.9. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getLength() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, ensuring negative values does not affect the calculation. Since the two values inside the testRange object are valid (Upper double being 20.5 and Lower double being -1.9), the expected value is 22.4, in which case the test passes.
 
 #### int hashCode()
 Returns a hash code
