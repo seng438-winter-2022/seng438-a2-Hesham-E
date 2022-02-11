@@ -8,11 +8,16 @@ public class toStringTest {
     @BeforeClass public static void setUpBeforeClass() throws Exception {
     }
 
-
+/**
+* This test creates a range
+**/
     @Before
     public void setUp() throws Exception { exampleRange = new Range(3.0,11.0);
     }
 
+/**
+* Here we check to see whether the correct string representation of range is returned
+**/
 
     @Test
     public void toStringTest() {
