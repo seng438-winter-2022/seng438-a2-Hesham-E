@@ -13,11 +13,13 @@
 
 The objective of this assignment is to continue to build the foundation of testing knowledge that was provided in assignment one. However, in this situation, there is a strong emphasis on black box testing; specifically, unit testing using the Junit framework. This framework was used inconjunction with a modified version of JFreeChart provided for the specific use of this lab.
 
-Before heading into this lab, our group had some preliminary knowledge about JUnit testing from a previous class. Additionally, we expanded upon the concepts we learned from this previous class, ENSF 409, during the SENG 438 lectures. At the end of this lab, we gained some experience with set up and troubleshooting before getting started on the tasks. Furthermore, we got to apply equivlance testing on top of boundary value testing that we were familiar with before.
+Before heading into this lab, our group had some preliminary knowledge about JUnit testing from a previous class. Additionally, we expanded upon the concepts we learned from this previous class, ENSF 409, during the SENG 438 lectures. At the end of this lab, we gained some experience with set up and troubleshooting before getting started on the tasks. Furthermore, we got to apply black-box test case design techniques like equivlance testing on top of boundary value testing that we were familiar with before. 
 
 # 2 Detailed description of unit test strategy
 
 For the ten methods we have chosen to develop our equivalence classes first. In this way we are able to isolate boundary cases quickly as well. Each method tested below begins by testing the unique equivalence classes first. This is to verify that each equivalence class is in fact unique and that we have not missed any boundary cases from our initial development of the equivalence classes. Finally, we will test the planned boundary cases as well as any unplanned boundary cases that we come across. These boundary values were added as further classes, if they were discovered.
+
+We have to utilize Mock Objects to test the class org.jfree.data.DataUtilities because some of its methods use the interfaces Values2D and KeyedValues for their inputs. Mock Objects allow Unit Tests to focus only on the behavior and correctness of the System Under Test, rather than the behavior and correctness of the other systems it uses or relies on.
 
 # 3 Test cases developed
 
@@ -647,7 +649,7 @@ public void secondtValueShouldBe0_50() {
 	assertEquals("The cumulative percentage at index 1 should be undefined(NaN)", 0,result, 0);
 	}
 ~~~
-* Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes. In this context, zeroes should be expected for all the values in the returned KeyedValues object, however, the test case fails. The values inside the returned KeyedValues object are all "NaN", instead of zeroes.
+* Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes.
 
 
 #### double getCentralValue()
@@ -667,11 +669,11 @@ Returns the central value of the range
 @Test
 public void valueShouldBe2(){
 	testRange = new Range(1,3);
-	assertEquals("The value between 1 and 3 should be 2", 2.00, testRange.getCentralValue(), 0);
+	assertEquals("The value between 1 and 3 should be 2", 2, testRange.getCentralValue(), 0);
 	
 }
 ~~~
-* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. Since the two values inside the testRange object are valid (Upper double being 3 and Lower double being 1), the expected value is 2.00, in which case the test passes.
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test.
 
 ~~~Java
 //Test Case #2
@@ -698,7 +700,6 @@ public void valueShouldBe1(){
 
 
 ~~~Java
-//Test Case #4
 @Test
 public void valueShouldBe35_9(){
 	testRange = new Range(21.3,50.5);
@@ -716,6 +717,14 @@ public void valueShouldBe35_9(){
 ~~~
 * Test Case #5, ensuring the method works properly with correct data. Inside the Range object we setup Upper to be 0 and Lower to be 0. Working with limited equivalent classes and no null or invalid Upper and Lower values permitted through the construction, getCentralValue() can be tested with exploratory and boundary cases.  No mocking is necessary for this test. This is a part of exploratory testing, having both boundaries set to zero, the method can be checked to see if such cases are accommodated. Since the two values inside the testRange object are valid (Upper double being 0 and Lower double being 0), the expected value is 0.00, in which case the test passes.
 
+~~~Java
+@Test
+public void lengthBetweenIntegerAndNonInteger() {
+	testRange = new Range(0,69.420);
+	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
+}
+~~~
+* Test Case #5, testing calculations between an integer and a non integer.
 
 #### double getLength()
 Returns the length of the range
@@ -813,6 +822,107 @@ toStringTest: Create a range object {3.0, 11.0} and call toString(). The expecte
     }
 ~~~
 
+#### double upperBoundaryTest()
+
+* Different values within a range is being tested to ensure the correct upper bound value is returned and no bug is detected.
+* All functions uses the getUpperBound method to return the upper boundary within a given range.
+* Test case #1 confirms whether the upper bound value is returned when a range of positive values are given.
+~~~Java
+public class upperBoundaryTest {
+	@Test
+	public void Positives() {
+		assertEquals("Upper bound should be 1", 1, new Range(0, 1).getUpperBound(), .000000001d);   //Two positive test
+	}
+~~~
+* Test Case #2
+* Test using two negative values within a range.
+* Both lower bound value and upper bound values are negative.
+~~~Java
+	@Test
+	public void Negatives() {
+		assertEquals("Upper bound should be -1", -1, new Range(-2, -1).getUpperBound(), .000000001d);    //Two negative test
+	}
+~~~
+* Test Case #3
+* Test using a positive and a negative value within a range.
+* A negative lower bound and a positive upper bound taken for test.
+~~~Java
+	@Test
+	public void Both() {
+		assertEquals("Upper bound should be 1", 1, new Range(-5, 1).getUpperBound(), .000000001d);  //Pos-Neg test
+	}
+~~~
+* Test Case #4
+* Test using same positive value within a range.
+* Both lower bound value and upper bound values are positive and same.
+~~~Java
+	@Test
+	public void SameValPos() {
+		assertEquals("Upper bound should be 1", 1, new Range(1, 1).getUpperBound(), .000000001d);  // same value (positives) bound test
+	}
+~~~
+* Test Case #5
+* Test using same negative value within a range.
+* Both lower bound value and upper bound values are negative and same.
+~~~Java
+	@Test
+	public void SameValNeg() {
+		assertEquals("Upper bound should be 1", -1, new Range(-1, -1).getUpperBound(), .000000001d);  // same value (negatives) bound test
+	}
+
+~~~
+
+#### double LowerBoundaryTest()
+* Different values within a range is being tested to ensure the correct lower bound value is returned and no bug is detected.
+* All functions uses the getLowerBound method to return the lower boundary within a given range.
+* Test case #1 confirms whether the lower bound value is returned when a range of positive values are given.
+
+~~~Java
+
+public class LowerBoundaryTest {
+	@Test
+	public void Positives() {
+		assertEquals("Lower bound should be 1", 1, new Range(1, 2).getLowerBound(), .000000001d);   //Two positive test
+	}
+	
+~~~
+* Test Case #2
+* Test using two negative values within a range.
+* Both lower bound value and upper bound values are negative.
+~~~Java	
+	@Test
+	public void Negatives() {
+		assertEquals("Lower bound should be -2", -2, new Range(-2, -1).getLowerBound(), .000000001d);    //Two negative test
+	}
+~~~
+* Test Case #3
+* Test using a positive and a negative value within a range.
+* A negative lower bound and a positive upper bound taken for test.
+~~~Java	
+	@Test
+	public void Both() {
+		assertEquals("Lower bound should be -5", -5, new Range(-5, 1).getLowerBound(), .000000001d);  //Pos-Neg test
+	}
+~~~
+* Test Case #4
+* Test using same positive value within a range.
+* Both lower bound value and upper bound values are positive and same.
+~~~Java
+	@Test
+	public void SameValPos() {
+		assertEquals("Lower bound should be 1", 1, new Range(1, 1).getLowerBound(), .000000001d);  // same value (positives) bound test
+	}
+~~~
+* Test Case #5
+* Test using same negative value within a range.
+* Both lower bound value and upper bound values are negative and same.
+~~~Java	
+	@Test
+	public void SameValNeg() {
+		assertEquals("Lower bound should be 1", -1, new Range(-1, -1).getLowerBound(), .000000001d);  // same value (negatives) bound test
+	}
+~~~
+
 # 4 How the team work/effort was divided and managed
 
 To divide the work, the team initally met to discuss if we wanted to work in pairs similar to the previous lab. In the end, we decided against this and went with a individual approach. To be more specific, since there were 10 methods that needed testing, the team decided and assigned a 3/3/2/2 split of methods to test. Furthermore, the people testing three methods were given functions that were thought to be simpler at first glance.
@@ -827,4 +937,4 @@ In terms of lessons learned, mocking is not always a best practice. This is beca
 
 # 6 Comments/feedback on the lab itself
 
-Text…
+Overall, it was a good introductory lab for us to learn JUnit testing and to apply black-box testing strategies. However, there were no clear instructions in the assignment for what to do if a test resulted in an error rather than a failure. Some of the methods in the JavaDocs said that they could throw a specific error, however during testing, different errors were thrown. Other techniques might state that no mistakes would be thrown, yet some of them actually did. This made constructing viable test cases much more difficult, and several of the test cases ended up with errors rather than failures.
