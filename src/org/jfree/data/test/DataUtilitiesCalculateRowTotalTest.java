@@ -35,7 +35,14 @@ public class DataUtilitiesCalculateRowTotalTest extends DataUtilities {
 	} 
 	 
 	
-	@Test 
+	/** 
+	 * This test is testing both equivalence classes
+	 * Values2D data: (1-infinity) columns
+	 * int row: (inside data’s indices)
+	 * The reason these are both in the same test
+	 * is because they are testing in the exact same manner
+	 */
+	@Test
 	public void calculateTwoValues() 
 	{
 		mocking.checking(new Expectations()
@@ -55,7 +62,16 @@ public class DataUtilitiesCalculateRowTotalTest extends DataUtilities {
 		assertEquals("The total value of row 0 should be 23.0", 23.0 , result, .000000001d); 
 	}
 	
-	@Test
+	/** 
+	 * This test is testing equivalence class
+	 * int row: (outside data’s indices)
+	 * 
+	 * The test setups up a table of one column
+	 * through mocking. getValue(1, 0) will
+	 * return throw an exception 
+	 * based on the java documentation.
+	 */
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void calculateRowIndexOutofRange()
 	{
 		mocking.checking(new Expectations()
@@ -64,16 +80,22 @@ public class DataUtilitiesCalculateRowTotalTest extends DataUtilities {
 				one(values).getColumnCount();
 				will(returnValue(1));
 				one(values).getValue(1, 0); 
-				will(returnValue(0)); 
+				will(throwException(new IndexOutOfBoundsException("Index out of range"))); 
 			}
 		});
 		
-		double result = DataUtilities.calculateRowTotal(values, 1);
-		
-		assertEquals("The total value of row 1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+		DataUtilities.calculateRowTotal(values, 1);
 	}
 	
-	@Test
+	/** 
+	 * This test is testing equivalence class
+	 * int row: (negative)
+	 * 
+	 * The test setups up a table of one column
+	 * through mocking. getValue(-1, 0) will
+	 * return 0 based on the java documentation.
+	 */
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void calculateRowIndexNegative()
 	{
 		mocking.checking(new Expectations()
@@ -82,17 +104,21 @@ public class DataUtilitiesCalculateRowTotalTest extends DataUtilities {
 				one(values).getColumnCount();
 				will(returnValue(1)); 
 				one(values).getValue(-1, 0); 
-				will(returnValue(0)); 
+				will(throwException(new IndexOutOfBoundsException("Index out of range")));  
 			}
 		});
 		
-		double result = DataUtilities.calculateRowTotal(values, -1);
-		
-		assertEquals("The total value of row -1 should be 0 because it does not exist", 0.0, result, .000000001d); 
+		DataUtilities.calculateRowTotal(values, -1);
 	}
 	
+	/** 
+	 * This test is testing equivalence class
+	 * Values2D data: (0) columns
+	 * 
+	 * The test setups up an empty table.
+	 */
 	@Test
-	public void tableHasZeroRows()
+	public void tableHasZeroColumns()
 	{
 		mocking.checking(new Expectations()
 		{
@@ -107,6 +133,13 @@ public class DataUtilitiesCalculateRowTotalTest extends DataUtilities {
 		assertEquals("The total value of should be 0 because this table has no rows", 0.0, result, .000000001d); 
 	}
 	
+	/** 
+	 * This test is testing equivalence class
+	 * Values2D data: (null)
+	 * 
+	 * The test has no setup and just passes null
+	 * value rather than a Values2D object.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void dataObjectInvalid()
 	{

@@ -2,19 +2,9 @@ package org.jfree.data.test;
 
 import static org.junit.Assert.*;
 import org.jfree.data.DataUtilities;
-import org.jfree.data.Values2D;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import org.jfree.data.DataUtilities;
-import org.jfree.data.Values2D;
-import org.jmock.Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +22,12 @@ public class DataUtilitiesCreateNumberArrayTest extends DataUtilities {
 	{
 
 	} 
-			
+		
+	/**
+	 * This class is testing
+	 * equivalence class "data could
+	 * have (1-infinity) length"
+	 */
 	@Test
 	public void compareValidArray() 
 	{
@@ -43,6 +38,11 @@ public class DataUtilitiesCreateNumberArrayTest extends DataUtilities {
 		Assert.assertArrayEquals("The returned array should be {1, 2, 3}", expected, result); 
 	}
 	
+	/**
+	 * This class is testing
+	 * equivalence class "data could
+	 * have (0) length"
+	 */
 	@Test
 	public void compareEmptyArray() 
 	{
@@ -53,6 +53,11 @@ public class DataUtilitiesCreateNumberArrayTest extends DataUtilities {
 		Assert.assertArrayEquals("The returned array should be {}", expected, result); 
 	}
 	
+	/**
+	 * This class is based on an additional
+	 * test case where it ensures the return
+	 * type is correct.
+	 */
 	@Test
 	public void testReturnType()
 	{
