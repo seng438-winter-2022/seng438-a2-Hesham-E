@@ -21,6 +21,12 @@ For the ten methods we have chosen to develop our equivalence classes first. In 
 
 # 3 Test cases developed
 
+Text…
+
+// write down the name of the test methods and classes. Organize the based on
+the source code method // they test. identify which tests cover which partitions
+you have explained in the test strategy section //above
+
 # org.jfree.data.DataUtilities:
 #### static double calculateColumnTotal(Values2D data, int column)
 Returns the length of the range
@@ -379,7 +385,40 @@ public void testReturnType()
 ~~~
 * For test case #3, this was a precaution taken and not a specific equivalnce class. Testing the return type meant testing if the polymorphism worked to create a Number object from a primitive type double. In this test as well, there is no need for mocking. Finally, this test passes since the correct return type was detected.
 
+#### static Number[][] createNumberArray2D(double[][] data)
+Constructs an array of Number objects from an array of double 
 
+* Ranges of values:
+    * data could have (0)(1-infinity) length
+* Number of equivalence classes:
+    * There are two equivalence classes here. One when data is empty and the other when it is not.
+* Strong vs Weak equivalence classes:
+    * In this case the equivalence classes are weak since they are not related to each other. Thus, there are 1 + 1 test cases based on the equivalence classes. One more test case can be added to this though to ensure that the return type is correct. However, since data is of type double[] boundary value cases cannot be developed based on type conversions since double fits all integers.
+
+~~~Java
+// Test Case #1:
+
+ public void NullTest() {
+    try {
+		c = DataUtilities.createNumberArray2D(null);
+		fail("null cannot be passed as a parameter");
+	}
+	catch(Exception e) {
+		assertEquals("Null does not throw " + "an InvalidParameterException",InvalidParameterException.class,e.getClass());
+	}
+~~~
+For Test Case #1, illegal test is implemented. Null was inputted to ensure an expected exception was caught.
+
+~~~Java
+ // Test Case #2:
+ 
+public void createNumberArray2DWithValid2DArrayOfDoublesTest() {
+	c = DataUtilities.createNumberArray2D(b);
+	assertArrayEquals("The number 2D array doesn't have the same values"+ " as the 2D array of doubles", d, c);
+}
+
+~~~
+For Test Case #2, value testing is implemented. If the array is not a double, it should return saying that the array does not have the same values as the 2D array of doubles.
 
 #### static KeyedValues getCumulativePercentages(KeyedValues data)
 Returns the length of the range
@@ -537,7 +576,7 @@ public void firstValueShouldBe0_25() {
 ~~~
 * Test Case #4, the test ensures that a negative value inside KeyedValues does not affect the cumulative in a non-proper way.
 
-# org.jfree.data.Range:
+
 #### double getCentralValue()
 Returns the length of the range
 * Range of values:
@@ -661,7 +700,48 @@ public void lengthBetweenIntegerAndNonInteger() {
 	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
 }
 ~~~
-* 
+
+#### int hashCode()
+Returns a hash code
+
+* This function will return a hash code value for the object. The general idea is, the hashCode method must return the same integer. If two objects are equals, then calling the hashCode method on each of the two objects will return the same integer as a result.
+* If the two objects are not equal, then calling the hashCode method on each of the two objects will produce distinct integer results. 
+* Value Testing is used for this function. The first test was to check for two similar test ranges, and the second was two different ranges.
+
+~~~Java
+//Test Case #1
+ public void TwoSimiliarTest() {
+       a= new Range(0,22);
+       b= new Range(0,22);
+    	assertEquals("The HashCode for the two Ranges are not the same", b.hashCode(), a.hashCode());
+    }
+~~~
+* Test Case #1 shows what will happen when two ranges are the same. This implements value testing.
+~~~Java
+//Test Case #2
+public void TwoDifferentTest(){
+    a= new Range(1,42);
+    b= new Range(22,55);
+    assertFalse("The HashCode for the two different Ranges are the same", a.hashCode()==b.hashCode());
+    }
+~~~
+* Test Case #2 shows what will happen when two ranges are different. This implements value testing.
+
+#### String toString()
+Returns a string representation of this range
+
+* This function, toString, returns a string. 
+* This function will return a string “Range[lower,upper]” where lower is the lower ranger and upper is the upper range
+toStringTest: Create a range object {3.0, 11.0} and call toString(). The expected output is telling the user that {3.0,11.0} is not equal.
+* Value Checking was used for this function.
+
+~~~Java
+//Test Case #1
+ public void toStringTest() {
+    	assertEquals("The strings are not equal", "Range[3.0,11.0]" , this.exampleRange.toString());
+    }
+~~~
+
 # 4 How the team work/effort was divided and managed
 
 To divide the work, the team initally met to discuss if we wanted to work in pairs similar to the previous lab. In the end, we decided against this and went with a individual approach. To be more specific, since there were 10 methods that needed testing, the team decided and assigned a 3/3/2/2 split of methods to test. Furthermore, the people testing three methods were given functions that were thought to be simpler at first glance.
