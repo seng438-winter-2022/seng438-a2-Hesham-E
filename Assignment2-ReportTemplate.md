@@ -647,7 +647,7 @@ public void secondtValueShouldBe0_50() {
 ~~~
 * Test case #6, Makes sure the getCumulativePercentages(KeyedValues data) method is working properly with an input that contains all zeroes. To simulate and properly test the method, mocking was used to replicate the behaviour of KeyedValues data as input. In this test case, the KeyedValues object contains three values, all consisting of zeroes.
 
-
+# org.jfree.data.Range:
 #### double getCentralValue()
 Returns the central value of the range
 * Range of values:
