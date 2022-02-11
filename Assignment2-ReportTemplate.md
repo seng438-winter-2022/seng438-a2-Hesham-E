@@ -13,11 +13,13 @@
 
 The objective of this assignment is to continue to build the foundation of testing knowledge that was provided in assignment one. However, in this situation, there is a strong emphasis on black box testing; specifically, unit testing using the Junit framework. This framework was used inconjunction with a modified version of JFreeChart provided for the specific use of this lab.
 
-Before heading into this lab, our group had some preliminary knowledge about JUnit testing from a previous class. Additionally, we expanded upon the concepts we learned from this previous class, ENSF 409, during the SENG 438 lectures. At the end of this lab, we gained some experience with set up and troubleshooting before getting started on the tasks. Furthermore, we got to apply equivlance testing on top of boundary value testing that we were familiar with before.
+Before heading into this lab, our group had some preliminary knowledge about JUnit testing from a previous class. Additionally, we expanded upon the concepts we learned from this previous class, ENSF 409, during the SENG 438 lectures. At the end of this lab, we gained some experience with set up and troubleshooting before getting started on the tasks. Furthermore, we got to apply black-box test case design techniques like equivlance testing on top of boundary value testing that we were familiar with before. 
 
 # 2 Detailed description of unit test strategy
 
 For the ten methods we have chosen to develop our equivalence classes first. In this way we are able to isolate boundary cases quickly as well. Each method tested below begins by testing the unique equivalence classes first. This is to verify that each equivalence class is in fact unique and that we have not missed any boundary cases from our initial development of the equivalence classes. Finally, we will test the planned boundary cases as well as any unplanned boundary cases that we come across. These boundary values were added as further classes, if they were discovered.
+
+We have to utilize Mock Objects to test the class org.jfree.data.DataUtilities because some of its methods use the interfaces Values2D and KeyedValues for their inputs. Mock Objects allow Unit Tests to focus only on the behavior and correctness of the System Under Test, rather than the behavior and correctness of the other systems it uses or relies on.
 
 # 3 Test cases developed
 
@@ -930,4 +932,4 @@ In terms of lessons learned, mocking is not always a best practice. This is beca
 
 # 6 Comments/feedback on the lab itself
 
-Text…
+Overall, it was a good introductory lab for us to learn JUnit testing and to apply black-box testing strategies. However, there were no clear instructions in the assignment for what to do if a test resulted in an error rather than a failure. Some of the methods in the JavaDocs said that they could throw a specific error, however during testing, different errors were thrown. Other techniques might state that no mistakes would be thrown, yet some of them actually did. This made constructing viable test cases much more difficult, and several of the test cases ended up with errors rather than failures.
