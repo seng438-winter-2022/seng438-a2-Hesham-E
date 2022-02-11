@@ -818,6 +818,7 @@ toStringTest: Create a range object {3.0, 11.0} and call toString(). The expecte
 
 * Different values within a range is being tested to ensure the correct upper bound value is returned and no bug is detected.
 * All functions uses the getUpperBound method to return the upper boundary within a given range.
+* All the tests pass.
 * Test case #1 confirms whether the upper bound value is returned when a range of positive values are given.
 ~~~Java
 public class upperBoundaryTest {
@@ -867,6 +868,7 @@ public class upperBoundaryTest {
 #### double LowerBoundaryTest()
 * Different values within a range is being tested to ensure the correct lower bound value is returned and no bug is detected.
 * All functions uses the getLowerBound method to return the lower boundary within a given range.
+* All the tests pass.
 * Test case #1 confirms whether the lower bound value is returned when a range of positive values are given.
 
 ~~~Java
