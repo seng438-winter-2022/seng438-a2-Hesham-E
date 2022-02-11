@@ -29,8 +29,7 @@ you have explained in the test strategy section //above
 
 # org.jfree.data.DataUtilities:
 #### static double calculateColumnTotal(Values2D data, int column)
-Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
-
+Returns the length of the range
 * Ranges of values:
     * Values2D data has (0)(1-infinity) rows OR data is (null)
     * int column index is (inside data’s indices)(outside data’s indices)(negative)
@@ -140,8 +139,7 @@ public void dataObjectInvalid()
 
 
 #### static double calculateRowTotal(Values2D data, int row)
-Returns the sum of the values in one row of the supplied data table.
-
+Returns the length of the range
 * Ranges of values:
     * Values2D data has (0)(1-infinity) columns or is (null)
     * int row index is (inside data’s indices), (outside data’s indices), or (negative)
@@ -307,8 +305,7 @@ public void testReturnType()
 
 
 #### static KeyedValues getCumulativePercentages(KeyedValues data)
-Returns the sum of the values in one row of the supplied data table.
-
+Returns the length of the range
 * Ranges of values:
     * KeyedValues data: (non-null KeyedValues object)
 * Number of equivalence classes:
@@ -465,8 +462,7 @@ public void firstValueShouldBe0_25() {
 
 
 #### double getCentralValue()
-Returns the central value for the range.
-
+Returns the length of the range
 * Range of values:
 	* There are no arguments for this method, within Range class there is double Upper and double Lower
 	* Upper: a double value that has to be >=Lower
@@ -485,7 +481,7 @@ public void valueShouldBe2(){
 	
 }
 ~~~
-* Test Case #1, ensuring the method works properly with correct data.
+* Test Case #1, ensuring the method works properly with correct data. Inside the Range we setup Upper to be 3 and Lower to be 1. No mocking is required for this test and based on the results getCentralValue() passes this test
 
 ~~~Java
 //Test Case #2
@@ -527,8 +523,62 @@ public void lengthBetweenIntegerAndNonInteger() {
 ~~~
 * Test Case #5, testing calculations between an integer and a non integer.
 
+#### double getLength()
+Returns the length of the range
+* Range of values:
+	* There are no arguments for this method, within Range class there is double Upper and double Lower
+	* Upper: a double value that has to be >=Lower
+	* Lower: a double value that has to be <= Upper
+* Number of equivalence classes:
+	* One equivalent class, since there are no arguments and null is not possible. The tests will be will be used with the Upper and Lower value inside Range.
+* Strong vs Weak equivalence classes:
+	* Since there are very limited inputs, strong equivalence class test can be done without as much work. 
+* Supplementary Notes:
+	* The same ideology of method testing can be derived from the previous method getCentralValue()
 
-* Test Case 1, ensures the method works properly with the correct given data.
+~~~Java
+//Test Case #1
+@Test
+public void lengthBetweenNegatuveOneAndOne() {
+	testRange = new Range(-1,1);
+	assertEquals("value should be 2", 2, testRange.getLength(),0);
+}
+~~~
+* 
+
+~~~Java
+@Test
+public void lengthBetweenZeroAndZero() {
+	testRange = new Range(0,0);
+	assertEquals("value should be 0", 0, testRange.getLength(),0);
+}
+~~~
+* 
+
+~~~Java
+@Test
+public void lengthBetweenZeroAndBigNumber() {
+	testRange = new Range(0,300);
+	assertEquals("value should be 300", 300, testRange.getLength(),0);
+}
+~~~
+
+~~~Java
+@Test
+public void lengthBetweenNonIntegers() {
+	testRange = new Range(-1.9,20.5);
+	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
+}
+~~~
+
+~~~Java
+@Test
+public void lengthBetweenIntegerAndNonInteger() {
+	testRange = new Range(0,69.420);
+	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
+}
+~~~
+
 # 4 How the team work/effort was divided and managed
 
 To divide the work, the team initally met to discuss if we wanted to work in pairs similar to the previous lab. In the end, we decided against this and went with a individual approach. To be more specific, since there were 10 methods that needed testing, the team decided and assigned a 3/3/2/2 split of methods to test. Furthermore, the people testing three methods were given functions that were thought to be simpler at first glance.
