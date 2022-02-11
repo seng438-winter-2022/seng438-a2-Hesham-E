@@ -630,6 +630,7 @@ public void lengthBetweenNegatuveOneAndOne() {
 * 
 
 ~~~Java
+//Test Case #2
 @Test
 public void lengthBetweenZeroAndZero() {
 	testRange = new Range(0,0);
@@ -639,29 +640,34 @@ public void lengthBetweenZeroAndZero() {
 * 
 
 ~~~Java
+//Test Case #3
+
 @Test
 public void lengthBetweenZeroAndBigNumber() {
 	testRange = new Range(0,300);
 	assertEquals("value should be 300", 300, testRange.getLength(),0);
 }
 ~~~
-
+* 
 ~~~Java
+//Test Case #4
+
 @Test
 public void lengthBetweenNonIntegers() {
 	testRange = new Range(-1.9,20.5);
 	assertEquals("value should be 22.4",22.4,testRange.getLength(),0);
 }
 ~~~
-
+* 
 ~~~Java
+//Test Case #5
 @Test
 public void lengthBetweenIntegerAndNonInteger() {
 	testRange = new Range(0,69.420);
 	assertEquals("value should be 69.420",69.420,testRange.getLength(),0);
 }
 ~~~
-
+* 
 # 4 How the team work/effort was divided and managed
 
 To divide the work, the team initally met to discuss if we wanted to work in pairs similar to the previous lab. In the end, we decided against this and went with a individual approach. To be more specific, since there were 10 methods that needed testing, the team decided and assigned a 3/3/2/2 split of methods to test. Furthermore, the people testing three methods were given functions that were thought to be simpler at first glance.
