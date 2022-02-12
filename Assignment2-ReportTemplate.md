@@ -22,7 +22,7 @@ For the ten methods we have chosen to develop our equivalence classes first. In 
 We have to utilize Mock Objects to test the class org.jfree.data.DataUtilities because some of its methods use the interfaces Values2D and KeyedValues for their inputs. Mock Objects allow Unit Tests to focus only on the behavior and correctness of the System Under Test, rather than the behavior and correctness of the other systems it uses or relies on.
 
 # 3 Test cases developed : 
-##org.jfree.data.DataUtilities:
+## org.jfree.data.DataUtilities:
 #### static double calculateColumnTotal(Values2D data, int column)
 Returns the length of the range
 * Ranges of values:
